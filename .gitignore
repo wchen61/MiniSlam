@@ -1,0 +1,5 @@
+MiniSlam/build/
+MiniSlam/__MACOSX/
+.DS_Store
+MiniSlam/MiniSlam.xcodeproj/*
+data/*

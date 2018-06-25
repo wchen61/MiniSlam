@@ -25,7 +25,7 @@ bool Initializer::Initialize(Frame f) {
         mFirstFrame = true;
         return false;
     } else {
-        mRefFrame = Frame(f);
+        /*mRefFrame = Frame(f);
         mMatches.clear();
         mGoodMatches.clear();
         mBFMatcher.match(mInitialFrame.mDescriptors, mRefFrame.mDescriptors, mMatches);
@@ -33,7 +33,7 @@ bool Initializer::Initialize(Frame f) {
         cv::Mat imageMatches;
         cv::drawMatches(mInitialFrame.mIm, mInitialFrame.mvKeyPoints, mRefFrame.mIm, mRefFrame.mvKeyPoints, mMatches, imageMatches);
         cv::imshow("matches", imageMatches);
-        cv::waitKey();
+        //cv::waitKey();
         
         double min_dist = 1000;
         double max_dist = 0;
@@ -54,7 +54,7 @@ bool Initializer::Initialize(Frame f) {
         cout << "good matches " << mGoodMatches.size() << endl;
         cv::drawMatches(mInitialFrame.mIm, mInitialFrame.mvKeyPoints, mRefFrame.mIm, mRefFrame.mvKeyPoints, mGoodMatches, imageMatches);
         cv::imshow("matches", imageMatches);
-        cv::waitKey();
+        //cv::waitKey();
         
         vector<cv::Point2f> points1;
         vector<cv::Point2f> points2;
@@ -71,7 +71,7 @@ bool Initializer::Initialize(Frame f) {
         F = cv::findFundamentalMat(points1, points2, cv::FM_8POINT);
         cout << F << endl;
         H = cv::findHomography(points1, points2, cv::RANSAC, 3);
-        cout << H << endl;
+        cout << H << endl;*/
 
         return true;
     }

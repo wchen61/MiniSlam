@@ -13,28 +13,41 @@
 using namespace cv;
 
 namespace MiniSlam {
-System::System() {
+System::System() : mPubFrame(false), mFirstPubTime(0.0f),
+    mFreq(10), mFirstImage(true), mPubFrameCount(0) {
     mState = NOT_INITIALIZED;
+    mTracking = new Tracking();
 }
 
-void System::ProcessFrame(cv::Mat im)
+void System::ProcessFrame(const cv::Mat &im, const double &timestamp)
 {
-    mImGray = im;
-    if (mImGray.channels() == 3) {
-        cvtColor(mImGray, mImGray, CV_RGB2GRAY);
-    }
-
     if (mState == NOT_INITIALIZED) {
         Initialize();
         mState = INITIALIZING;
     }
     
-    mCurrentFrame = Frame(im);
-    mInitializer.Initialize(mCurrentFrame);
+    if (mFirstImage) {
+        mFirstImage = false;
+        mFirstPubTime = timestamp;
+    }
+    
+    if (round(1.0 * mPubFrameCount / ((timestamp - mFirstPubTime) * 10e-6)) <= mFreq) {
+        mPubFrame = true;
+        if (abs(1.0 * mPubFrameCount / ((timestamp - mFirstPubTime) * 10e-6) - mFreq) < 0.01 * mFreq) {
+            mFirstPubTime = timestamp;
+            mPubFrameCount = 0;
+        }
+    } else {
+        mPubFrame = false;
+    }
+    
+    mTracking->GrabImage(im, timestamp, mPubFrame);
+    //mInitializer.Initialize(mCurrentFrame);
 }
 
 void System::Initialize()
 {
-    
+
 }
+
 }

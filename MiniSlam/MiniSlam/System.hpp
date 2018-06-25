@@ -13,6 +13,7 @@
 #include <opencv2/core/core.hpp>
 #include "Frame.hpp"
 #include "Initializer.hpp"
+#include "Tracking.hpp"
 
 using namespace cv;
 
@@ -20,7 +21,7 @@ namespace MiniSlam {
 class System {
 public:
     System();
-    void ProcessFrame(Mat im);
+    void ProcessFrame(const cv::Mat &im, const double &timestamp);
     void Initialize();
     
     enum SLAM_STATE {
@@ -32,9 +33,13 @@ public:
 
 protected:
     enum SLAM_STATE mState;
-    Mat mImGray;
-    Frame mCurrentFrame;
     Initializer mInitializer;
+    Tracking* mTracking;
+    bool mPubFrame;
+    double mFirstPubTime;
+    int mFreq;
+    bool mFirstImage;
+    int mPubFrameCount;
 };
 }
 #endif /* System_hpp */

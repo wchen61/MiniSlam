@@ -19,14 +19,28 @@ namespace MiniSlam {
 class Frame {
 public:
     Frame();
-    Frame(cv::Mat im);
+    Frame(const cv::Mat &im, const double &timestamp, cv::Mat &K, cv::Mat &distCoef);
+    
+    void AddFeatures();
+    void UndistortPoints();
 
-    vector<cv::KeyPoint> mvKeyPoints;
+    /*vector<cv::KeyPoint> mvKeyPoints;
     cv::Mat mDescriptors;
     cv::Mat mTcw;
+    cv::Mat mIm;*/
+ 
     cv::Mat mIm;
+    vector<cv::Point2f> mPts;
+    vector<cv::Point2f> mUnPts;
+    vector<int> mIds;
+    vector<int> mTrack_cnt;
+    double mTimestamp;
+
 private:
+    static int n_id;
     static cv::Ptr<cv::ORB> mDetector;
+    cv::Mat mK;
+    cv::Mat mDistCoef;
 };
 
 }
